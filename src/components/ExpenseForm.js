@@ -16,7 +16,8 @@ export default class ExpenseForm extends React.Component{
         note:'',
         amount:'',
         createdAt: moment(),
-        calendarFocused: false
+        calendarFocused: false,
+        error:''
     };
 
     onDescriptionChange=(e)=>{
@@ -32,23 +33,44 @@ export default class ExpenseForm extends React.Component{
     onAmountChange=(e)=>{
         const amount= e.target.value;
         //AQUI VAMOS A UTILIZAR UNA EXPRESION REGULAR, PARA ACEPTAR SOLO # CON MAXIMO 2 DECIMALES
-        if(amount.match(/^\d*(\.\d{0,2})?$/)){
+        if(!amount||amount.match(/^\d{1,}(\.\d{0,2})?$/)){
         this.setState(()=>({amount}));
         }
     }
 
     onDateChange=(createdAt)=>{
-        this.setState(()=>({createdAt}));
+        //SI HAY UNA FECHA CREADA ENTONCES QUE ACTUALICE EL ESTADO
+        if(createdAt){
+            this.setState(()=>({createdAt}));
+        }
     }
 
     onFocusChange=({focused})=>{
         this.setState(()=>({calendarFocused: focused}));
     };
 
+    onSubmit=(e)=>{
+        e.preventDefault();
+        if(!this.state.description || !this.state.amount){
+            this.setState(()=>({error:'Please provide description and amount'}));
+        }else{
+            this.setState(()=>({error:''}));
+            this.props.onSubmit({
+                description:this.state.description,
+                //SE TIENE QUE CONVERTIR EL # A DECIMAL Y SE MULTIPLICA POR 100 POR QUE ESTAMOS TRABAJANDO CON CENTAVOS
+                amount: parseFloat(this.state.amount,10)*100,
+                createdAt: this.state.createdAt.valueOf(),
+                note: this.state.note
+            });
+            console.log("Submitted");
+        }
+    }
+
     render(){
         return(
             <div>
-            <form>
+            <p>{this.state.error==''?'':this.state.error}</p>
+            <form onSubmit={this.onSubmit}>
                 <input
                  type="text"
                  placeholder="Description"
