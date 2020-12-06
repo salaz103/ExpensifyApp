@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 //GET VISIBLE EXPENSES
 //EL 2DO PARAMETRO (FILTERS) ESTA SIENDO "DESTRUCTURING"
 const getVisibleExpenses=(expenses,{ text,sortBy, startDate, endDate})=>{
@@ -15,9 +17,12 @@ const getVisibleExpenses=(expenses,{ text,sortBy, startDate, endDate})=>{
         //DEL FILTRO QUE SE ESTA PONIENDO "startDate" ENTONCES SE REGRESA "true"
         // Y SI EL GASTO FUE CREADO EN UNA FECHA MENOR O IGUAL QUE EL FILTRO QUE SE ESTA PONIENDO "endDate"
         //ENTONCES SE REGRESA "true".
-        const startDateMatch= typeof startDate!=='number' || expense.createdAt>=startDate;
-        const endDateMatch= typeof endDate!=='number' || expense.createdAt<=endDate;
-        
+        //const startDateMatch= typeof startDate!=='number' || expense.createdAt>=startDate;
+        //const endDateMatch= typeof endDate!=='number' || expense.createdAt<=endDate;
+        const createdAtMoment= moment(expense.createdAt);
+        const startDateMatch= startDate? startDate.isSameOrBefore(createdAtMoment,'day') :true;
+        const endDateMatch= endDate? endDate.isSameOrAfter(createdAtMoment,'day'): true;
+
         const st1=expense.description.toLowerCase();
         const st2= text.toLowerCase();
         const textMatch= st1.includes(st2);
