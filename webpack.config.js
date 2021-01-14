@@ -1,38 +1,66 @@
-//entry point ->output
-const path= require('path');
+const path = require('path');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
-
-module.exports={
-    mode:'development',
-    entry:'./src/app.js',
-    output:{
-        path:path.join(__dirname,'public'),
-        filename:'bundle.js'
-    },
-    //ESTA ES LA CONFIGURACIÓN PARA BABEL CON WEBPACK
-    module:{
-        rules:[{
-            loader:'babel-loader',
-            test: /\.js$/,
-            exclude: /node_modules/
-        },{
-            test:/\.s?css$/,
-            use : [
-                'style-loader',
-                'css-loader',
-                'sass-loader'
-            ]
-        }]
-    },
-    //ESTO SIRVE PARA MAPEAR, SI EN ALGÚN MOMENTO 
-    //SE TIENE UN ERROR Y COMO EL ARCHIVO QUE ESTA 
-    //"EXPUESTO" ES BUNDLE.JS, CON ESTE MAPEO SE PUEDE
-    //VER DONDE ESTA ORIGINALMENTE EL ERROR
-    devtool:'cheap-module-eval-source-map',
-    devServer:{
-        contentBase: path.join(__dirname,'public'),
-        //ESTA PROPIEDAD LE DICE AL DEV-SERVER QUE TODAS LAS PAGINAS LAS REDIRECCIONE
-        //AL INDEX.HTML, ES DECIR QUE LAS PAGINAS SERAN PROPORCIONADAS DEL LADO DEL CLIENTE
-        historyApiFallback: true
-    }
+module.exports = (env) => {
+    const isProduction = env === 'production';
+    return {
+        entry: path.resolve(__dirname, 'src', 'app.js'),
+        output: {
+            filename: 'bundle.js',
+            path: path.resolve(__dirname, 'public'),
+        },
+        mode: 'development',
+        devtool: isProduction ? 'source-map' : 'inline-source-map',
+        devServer: {
+            contentBase: './public',
+            historyApiFallback: true,
+        },
+        module: {
+            rules: [
+                {
+                    test: /\.m?js$/,
+                    exclude: /(node_modules|bower_components)/,
+                    use: {
+                        loader: 'babel-loader',
+                        options: {
+                            presets: ['@babel/preset-env', '@babel/preset-react'],
+                            plugins: ['@babel/plugin-proposal-class-properties'],
+                        },
+                    },
+                },
+                {
+                    test: /\.s?css$/,
+                    use: [
+                        {
+                            loader: MiniCssExtractPlugin.loader,
+                            options: {
+                                publicPath: (resourcePath, context) => {
+                                    return (
+                                        path.relative(path.dirname(resourcePath), context) + '/'
+                                    );
+                                },
+                            },
+                        },
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                sourceMap: true
+                            }
+                        },
+                        {
+                            loader: 'sass-loader',
+                            options: {
+                                sourceMap: true
+                            }
+                        }
+                    ],
+                },
+            ],
+        },
+        plugins: [
+            new MiniCssExtractPlugin({
+                filename: 'styles.css',
+            }),
+        ],
+    };
 };
