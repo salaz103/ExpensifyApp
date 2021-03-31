@@ -8,6 +8,7 @@ export const PrivateRoute = ({
     component:Component,
     ///ESTO ES EL OPERADOR REST, DONDE EN ESTA VARIABLE ESTA LO QUE NO SE HIZO DESTRUCTURING, ES DECIR
     //EN LA VARIABLE REST ESTA TODO A EXCEPCION DE "isAuthenticated y component"
+    //SI HAY DUDA, VER LECCION 166 
     ...rest    
 })=>(
     <Route {...rest} component={(props)=>(
