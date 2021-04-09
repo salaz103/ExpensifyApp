@@ -13,7 +13,7 @@ if(process.env.NODE_ENV === 'test'){
 module.exports = (env) => {
     const isProduction = env === 'production';
     return {
-        entry: path.resolve(__dirname, 'src', 'app.js'),
+        entry: ['babel-polyfill', path.resolve(__dirname, 'src', 'app.js')],
         output: {
             filename: 'bundle.js',
             path: path.resolve(__dirname, 'public','dist'),

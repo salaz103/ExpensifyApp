@@ -2,13 +2,19 @@
 //QUIERE DECIR QUE ESTE ARCHIVO ES PARCIAL, ES DECIR, QUE VA A SER 
 //PARTE DE OTRO MÁS GRANDE.
 
+*{
+    box-sizing: border-box;
+}
+
 html{
     font-size: 62.5%;
 }
 
 body{
+    color: $dark-grey;
     font-family: Arial, Helvetica, sans-serif;
     font-size: $m-size;
+    line-height: 1.6;
 }
 
 button{

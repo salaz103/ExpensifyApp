@@ -1,0 +1,14 @@
+.form{
+    display: flex;
+    flex-direction: column;
+    //WITH THIS WE CAN SELECT ALL THE DESCENDENTS IN THE FORM AND 
+    //APPLIED WHAT IS INSIDE THE CURLY BRACES
+    > * {
+        margin-bottom: $m-size;
+    }
+}
+
+.form__error{
+    margin: 0 0 $m-size 0;
+    font-style: italic;
+}

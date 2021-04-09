@@ -1,0 +1,71 @@
+.list-header {
+    background: $off-white;
+    border: 1px solid darken($color: $off-white, $amount: 7%);
+    color: $grey;
+    display: flex;
+    justify-content: space-between;
+    padding: $s-size $m-size;
+}
+
+.list-body{
+    margin-bottom: $m-size;
+    @media (min-width: $desktop-breakpoint){
+        margin-bottom: $l-size;
+    }
+}
+
+.list-item{
+    border: 1px solid darken($off-white, 7%);
+    border-top: none;
+    color: $dark-grey;
+    display: flex;
+    flex-direction: column;
+    padding: $s-size;
+    text-decoration: none;
+    //TRANSITION CSS PROPERTY, AMOUNT OF TIME, FUNCTIONS
+    //EASE -> starts, accelerate and then decelerates as it wraps up 
+    transition: background .3s ease;
+    //HOVER IS USED WHEN THE MOUSE ITS OVER THE ITEM FOR EXAMPLE
+    //THIS IS A SCSS FEATURE (   &:  )
+    &:hover{
+        background: $off-white;
+    }
+    //@media MEANS THAT FOR EXAMPLE IF THE SIZE OF THE WINDOW (THE MINIMUM WIDTH)
+    //SURPASS THE $DESKTOP-BREAKPOINT, NOW THE FLEX DIRECTION WILL BE ROW (FROM LEFT TO RIGHT)
+    //INSTEAD OF COLUMN (FROM TOP TO BOTTOM)
+    @media (min-width: $desktop-breakpoint){
+        align-items: center ;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: $m-size; 
+    }
+}
+
+.list-item--message{
+    align-items: center;
+    color: $grey;
+    justify-content: center;
+    padding: $m-size;
+    &:hover{
+        background: none;
+    }
+}
+
+.list-item__title{
+    margin: 0;
+    //THIS BREAKS ALL THE LONG WORDS SO THEY DO NOT BREAK ANY MARGINS
+    word-break: break-all;
+}
+
+.list-item__subtitle{
+    color: $grey;
+    font-size: $font-size-small;
+}
+
+.list-item__data{
+    margin: $s-size 0 0 0;
+    @media (min-width: $desktop-breakpoint) {
+        margin: 0;
+        padding-left: $s-size;
+    }
+}

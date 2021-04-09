@@ -1,0 +1,21 @@
+.button{
+    background: $blue;
+    border: none;
+    color: white;
+    display: inline-block;
+    font-size: $font-size-large;
+    font-weight: 300;
+    line-height: 1;
+    padding: $s-size;
+    text-decoration: none;
+}
+
+//THIS IS A MODIFIER FOR LINK, THATS WHY WE USED --
+// IT IS LIKE IF WE USED @EXTEND 
+.button--link{
+    background: none;
+}
+
+.button--secondary{
+    background: #888888;
+}
